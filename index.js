@@ -1,4 +1,5 @@
 const { ApolloServer, gql } = require("apollo-server");
+const quotesdb = require('./quotesdb');
 
 const typeDefs = gql`
     type Category {
@@ -10,6 +11,7 @@ const typeDefs = gql`
         id: ID!
         body: String!
         author: String!
+        authorType: String
         category: [Category]
         dateAdded: String
     }
@@ -22,37 +24,17 @@ const typeDefs = gql`
     }
 `;
 
-const quotes = [
-    {
-        id: "001",
-        body: "All's well that ends better",
-        author: "JRR Tolkein",
-        dateAdded: '2020-08-03',
-        category: [{name: "Adventure"}, {name: "Fantasy"}]
-    },
-    {
-        id: "002",
-        body: "Your face is awesome",
-        author: "Saalik Lokhandwala",
-        dateAdded: '2020-08-03'
-    }
-]
-
 const resolvers = {
     Query: {
         quotes: () => {
-            return quotes;
+            return quotesdb.quotesdb;
         },
-
-        // quoteByCategory: () => {
-
-        // },
-
         randomQuote: () => {
-            return quotes[0];
+            return quotesdb.quotesdb[Math.floor(Math.random() * quotesdb.quotesdb.length)];
         }
     }
 }
+
 
 const server = new ApolloServer({ typeDefs, resolvers })
 server.listen().then(({ url }) => {
