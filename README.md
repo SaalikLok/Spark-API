@@ -10,7 +10,8 @@ Apollo has a [great article](https://www.apollographql.com/blog/4-simple-ways-to
 Visit the [Playground](https://spark-api-graphql.herokuapp.com/)
 
 ### Example Queries
-`
+Get all quotes with the quote itself, author, and category
+```
 query{
   quotes{
     body
@@ -20,7 +21,39 @@ query{
     }
   }
 }
-`
+```
+
+Get a random quote with the body, author, category and author type.
+```
+query{
+  randomQuote{
+    body
+    author
+    authorType
+    category{
+      name
+    }
+  }
+}
+```
+
+An example response would look like this:
+```
+{
+  "data": {
+    "randomQuote": {
+      "body": "Tell me and I forget, teach me and I may remember, involve me and I learn.",
+      "author": "Benjamin Franklin",
+      "authorType": "Political Figure",
+      "category": [
+        {
+          "name": "Learning"
+        }
+      ]
+    }
+  }
+}
+```
 
 ## Why?
 There aren't enough APIs in the world with inspirational quotes out there for developers to use in their applications. While I started learning and playing with GraphQL, I decided this would be a fun one to build.
